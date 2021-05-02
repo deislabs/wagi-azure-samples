@@ -22,3 +22,4 @@ jobs:
       run: |
         cargo build --release --target wasm32-wasi --bin handler
         cargo build --release --target wasm32-wasi --bin webhook
+        cargo build --release --target wasm32-wasi --bin tf
