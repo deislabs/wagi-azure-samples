@@ -1,0 +1,13 @@
+[[module]]
+route = "/handler"
+module = "target/wasm32-wasi/release/handler.wasm"
+environment = { STORAGE_ACCOUNT = "<sa>", STORAGE_MASTER_KEY = "<sa-key>", TOPIC_HOST_NAME = "<host>", TOPIC_KEY = "<host-key>" }
+allowed_hosts = ["https://<storage>.blob.core.windows.net", "https://<storage>.<location>.eventgrid.azure.net"]
+
+
+[[module]]
+# host = "public host"
+route = "/eventgrid-webhook"
+module = "target/wasm32-wasi/release/webhook.wasm"
+environment = { STORAGE_ACCOUNT = "<sa>", STORAGE_MASTER_KEY = "<sa-key>", COSMOS_MASTER_KEY= "<key>", COSMOS_ACCOUNT= "<account>", COSMOS_DATABASE = "<database>", COSMOS_COLLECTION = "<collection>" }
+allowed_hosts = ["https://<storage>.blob.core.windows.net", "https://<cosmos>.documents.azure.com"]

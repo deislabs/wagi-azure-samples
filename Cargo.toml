@@ -1,0 +1,35 @@
+[package]
+name = "wagi-samples"
+version = "0.1.0"
+authors = ["Radu M <root@radu.sh>"]
+edition = "2018"
+
+[dependencies]
+azure_core = { git = "https://github.com/radu-matei/azure-sdk-for-rust", branch = "enable-wasi-experimental-http", features = ["enable_wasi_experimental_http"] }
+azure_cosmos = { git = "https://github.com/radu-matei/azure-sdk-for-rust", branch = "enable-wasi-experimental-http" }
+azure_storage = { git = "https://github.com/radu-matei/azure-sdk-for-rust", branch = "enable-wasi-experimental-http" }
+iothub = { git = "https://github.com/radu-matei/azure-sdk-for-rust", branch = "enable-wasi-experimental-http" }
+azure_event_grid = { git = "https://github.com/radu-matei/azure-sdk-for-rust", branch = "enable-wasi-experimental-http" }
+
+anyhow = "1.0"
+bytes = "1"
+chrono = "0.4"
+futures = "0.3"
+md5 = "0.7"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[patch.crates-io]
+ring = { git = "https://github.com/radu-matei/ring", branch = "wasm32-wasi", version = "0.16.20" }
+oauth2 = { git = "https://github.com/radu-matei/oauth2-rs", branch = "wasm32-wasi" }
+
+
+[lib]
+name = "common"
+path = "src/lib.rs"
+
+[[bin]]
+name = "handler"
+
+[[bin]]
+name = "webhook"
