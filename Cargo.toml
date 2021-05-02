@@ -15,9 +15,13 @@ anyhow = "1.0"
 bytes = "1"
 chrono = "0.4"
 futures = "0.3"
+image = { version = "0.23.0", default-features = false, features = ["jpeg"] }
 md5 = "0.7"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+sha2 = "0.9.3"
+tract = "0.14"
+tract-tensorflow = "0.14"
 
 [patch.crates-io]
 ring = { git = "https://github.com/radu-matei/ring", branch = "wasm32-wasi", version = "0.16.20" }
@@ -33,3 +37,6 @@ name = "handler"
 
 [[bin]]
 name = "webhook"
+
+[[bin]]
+name = "tf"

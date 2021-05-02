@@ -11,3 +11,10 @@ route = "/eventgrid-webhook"
 module = "target/wasm32-wasi/release/webhook.wasm"
 environment = { STORAGE_ACCOUNT = "<sa>", STORAGE_MASTER_KEY = "<sa-key>", COSMOS_MASTER_KEY= "<key>", COSMOS_ACCOUNT= "<account>", COSMOS_DATABASE = "<database>", COSMOS_COLLECTION = "<collection>" }
 allowed_hosts = ["https://<storage>.blob.core.windows.net", "https://<cosmos>.documents.azure.com"]
+
+[[module]]
+route = "infer"
+module = "target/wasm32-wasi/release/tf.wasm"
+environment = { COSMOS_MASTER_KEY= "<key>", COSMOS_ACCOUNT= "<account>", COSMOS_DATABASE = "<database>", COSMOS_COLLECTION = "<collection>" }
+allowed_hosts = ["https://<cosmos>.documents.azure.com"]
+volumes = { "/" = "./data" }

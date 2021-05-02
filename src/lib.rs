@@ -1,11 +1,11 @@
 use azure_core::HttpClient;
-use azure_cosmos::prelude::*;
+use azure_cosmos::{prelude::*, responses::QueryDocumentsResponse};
 use azure_event_grid::{Event, EventGridClient};
 use azure_storage::{blob::prelude::*, core::prelude::*};
 use bytes::Bytes;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use std::{collections::HashMap, error::Error, result, sync::Arc};
+use std::{collections::HashMap, error::Error, fmt::Debug, result, sync::Arc};
 
 pub type Result<T> = result::Result<T, Box<dyn Error + Send + Sync>>;
 
@@ -114,6 +114,26 @@ where
     Ok(())
 }
 
+pub async fn query_collection<T>(
+    account: String,
+    key: String,
+    database: String,
+    collection: String,
+    query: String,
+    http_client: Arc<Box<dyn HttpClient>>,
+) -> Result<QueryDocumentsResponse<T>>
+where
+    T: Debug + for<'de> Deserialize<'de>,
+{
+    let token = AuthorizationToken::primary_from_base64(&key)?;
+    let client = CosmosClient::new(http_client, account, token)
+        .into_database_client(database)
+        .into_collection_client(collection);
+
+    let res = client.query_documents().execute::<T, _>(&query).await?;
+    Ok(res)
+}
+
 pub fn query_to_hash_map() -> Result<HashMap<String, String>> {
     let mut res = HashMap::new();
 
@@ -139,4 +159,18 @@ pub enum EventType {
     Validation(String),
     BlobCreated,
     Custom(String),
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct Entity {
+    pub id: String,
+    pub value: String,
+}
+
+impl<'a> CosmosEntity<'a> for Entity {
+    type Entity = &'a str;
+
+    fn partition_key(&'a self) -> Self::Entity {
+        self.id.as_ref()
+    }
 }
