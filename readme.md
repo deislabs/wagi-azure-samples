@@ -1,8 +1,11 @@
 ### WAGI samples using Azure services
 
-This is a repository containing WebAssembly modules running on top of
-[WAGI][wagi] (WebAssembly Gateway Interface, which allows you to run WebAssembly
-WASI binaries as HTTP handlers) and using Azure services.
+This is an _experimental_ repository containing WebAssembly modules running on
+top of [WAGI][wagi] (WebAssembly Gateway Interface, which allows you to run
+WebAssembly WASI binaries as HTTP handlers) and using Azure services.
+
+> Note that this repository is built on experimental code, and it is not
+> guaranteed to be maintained or supported.
 
 ### What do the examples do?
 
@@ -19,13 +22,13 @@ There are currently two examples in this repository, `handler` and `webhook`:
   storage account, then creates a new [Azure Cosmos DB][cosmos] collection using
   the blob bytes.
 
-- `tf` - this is a separate example that performs image computer vision
-  inferencing using the [MobileNetV2][mobilenet] model, run using the [Sonos
-  Tract crate][sonos-tract]. The module reads the image data from the request
-  body, and first checks the configured Azure Cosmos DB collection if the
-  image's content digest has already been classified previously. If so, it
-  returns the result from the cache. Otherwise, it will run the TensorFlow model
-  on the incoming image, write the result to the cache, then return it.
+- `tf` - this is a separate example that performs computer vision inferencing
+  using the [MobileNetV2][mobilenet] model, run using the [Sonos Tract
+  crate][sonos-tract]. The module reads the image data from the request body,
+  and first checks the configured Azure Cosmos DB collection if the image's
+  content digest has already been classified previously. If so, it returns the
+  result from the cache. Otherwise, it will run the TensorFlow model on the
+  incoming image, write the result to the cache, then return it.
 
 ### Building and running
 
